@@ -5,6 +5,7 @@ import { RouterProvider } from 'react-router-dom';
 import { PrimeReactProvider } from 'primereact/api';
 import router from './router';
 import primeReactConfig from './config/primeReactConfig';
+import { initCsrfProtection } from './utils/csrfUtils';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -13,6 +14,13 @@ import './App.css';
 import './styles/custom.css';
 
 function App() {
+  // Initialize CSRF protection when the app starts
+  useEffect(() => {
+    initCsrfProtection()
+      .then(() => console.log('CSRF protection initialized'))
+      .catch(error => console.error('Failed to initialize CSRF protection:', error));
+  }, []);
+
   return (
     <PrimeReactProvider value={primeReactConfig}>
       <AuthProvider>
