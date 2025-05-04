@@ -262,6 +262,32 @@ The application uses PrimeFlex CSS utility classes for responsive layouts and st
 - Session management includes security best practices
 - Always keep your OAuth credentials secure
 
+### API Rate Limiting
+
+The application implements rate limiting to protect against abuse and denial of service attacks:
+
+- **Global Rate Limit**: 100 requests per 15-minute window per IP address
+- **API Endpoints**: 50 requests per 15-minute window per IP address
+- **Authentication Endpoints**: 5 login/registration attempts per hour per IP address
+
+Rate limit responses include the following headers:
+- `RateLimit-Limit`: Maximum number of requests allowed in the window
+- `RateLimit-Remaining`: Number of requests remaining in the current window
+- `RateLimit-Reset`: Time when the rate limit window resets (in seconds)
+
+When a rate limit is exceeded, the API returns a 429 (Too Many Requests) status code with an error message.
+
+### Security Headers
+
+The application implements the following security headers:
+
+- **Content-Security-Policy**: Controls which resources can be loaded
+- **X-Content-Type-Options**: Prevents MIME type sniffing
+- **X-Frame-Options**: Prevents clickjacking by controlling iframe usage
+- **X-XSS-Protection**: Provides XSS protection in older browsers
+- **Referrer-Policy**: Controls the Referer header information
+- **Strict-Transport-Security (HSTS)**: Forces HTTPS in production environments
+
 ## Troubleshooting
 
 ### Port Conflicts

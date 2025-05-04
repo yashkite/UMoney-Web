@@ -8,6 +8,7 @@ const MongoStore = require('connect-mongo');
 const csrf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+const rateLimit = require('express-rate-limit');
 
 // Import custom middleware
 const csrfErrorHandler = require('./middleware/csrfErrorHandler');
@@ -50,9 +51,39 @@ app.use(
   })
 );
 
+// Configure additional security headers
+app.use(helmet.xssFilter()); // Adds X-XSS-Protection header
+app.use(helmet.noSniff()); // Adds X-Content-Type-Options header
+app.use(helmet.frameguard({ action: 'deny' })); // Adds X-Frame-Options header
+app.use(helmet.referrerPolicy({ policy: 'same-origin' })); // Adds Referrer-Policy header
+// Add HSTS header in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(helmet.hsts({
+    maxAge: 31536000, // 1 year in seconds
+    includeSubDomains: true,
+    preload: true
+  }));
+}
+
+// Global rate limiter - applies to all requests
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  message: {
+    status: 429,
+    success: false,
+    error: {
+      message: 'Too many requests, please try again later.',
+      code: 'RATE_LIMIT_EXCEEDED'
+    }
+  }
+});
+
 // Middleware
-app.use(cors({ 
-  origin: ['http://localhost:3000', 'http://localhost:5000'], 
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://localhost:5000'],
   credentials: true,
   exposedHeaders: ['XSRF-TOKEN'] // Expose CSRF token header
 }));
@@ -64,7 +95,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({ 
+  store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
     ttl: 24 * 60 * 60, // Session TTL (1 day)
     autoRemove: 'native' // Use MongoDB's TTL index
@@ -82,7 +113,7 @@ app.use(passport.initialize());
 app.use(passport.session()); // Allow persistent login sessions
 
 // CSRF Protection (after session middleware)
-app.use(csrf({ 
+app.use(csrf({
   cookie: {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
@@ -95,6 +126,25 @@ app.use(csrfMiddleware);
 
 // CSRF error handler
 app.use(csrfErrorHandler);
+
+// Apply global rate limiter to all requests
+app.use(globalLimiter);
+
+// More strict rate limiter for authentication endpoints
+const authLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5, // limit each IP to 5 login attempts per hour
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    status: 429,
+    success: false,
+    error: {
+      message: 'Too many login attempts, please try again later.',
+      code: 'AUTH_RATE_LIMIT_EXCEEDED'
+    }
+  }
+});
 
 // Basic route
 app.get('/', (req, res) => {
@@ -125,18 +175,36 @@ const financialPlanningRoutes = require('./routes/financialPlanning');
 const utilsRoutes = require('./routes/utils');
 const ledgerRoutes = require('./routes/ledgers');
 
-// Use Routes
+// Define specific rate limiters for different types of endpoints
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 50, // limit each IP to 50 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    status: 429,
+    success: false,
+    error: {
+      message: 'Too many API requests, please try again later.',
+      code: 'API_RATE_LIMIT_EXCEEDED'
+    }
+  }
+});
+
+// Use Routes with appropriate rate limiters
+app.use('/api/auth/login', authLimiter); // Apply stricter limits to login
+app.use('/api/auth/register', authLimiter); // Apply stricter limits to registration
 app.use('/api/auth', authRoutes);
-app.use('/api/transactions', transactionRoutes);
-app.use('/api/categories', categoryRoutes);
-app.use('/api/recipients', recipientRoutes);
-app.use('/api/financial-goals', financialGoalRoutes);
-app.use('/api/assets', assetRoutes);
-app.use('/api/liabilities', liabilityRoutes);
-app.use('/api/budgets', budgetRoutes);
-app.use('/api/financial-planning', financialPlanningRoutes);
-app.use('/api/utils', utilsRoutes);
-app.use('/api/users', ledgerRoutes);
+app.use('/api/transactions', apiLimiter, transactionRoutes);
+app.use('/api/categories', apiLimiter, categoryRoutes);
+app.use('/api/recipients', apiLimiter, recipientRoutes);
+app.use('/api/financial-goals', apiLimiter, financialGoalRoutes);
+app.use('/api/assets', apiLimiter, assetRoutes);
+app.use('/api/liabilities', apiLimiter, liabilityRoutes);
+app.use('/api/budgets', apiLimiter, budgetRoutes);
+app.use('/api/financial-planning', apiLimiter, financialPlanningRoutes);
+app.use('/api/utils', apiLimiter, utilsRoutes);
+app.use('/api/users', apiLimiter, ledgerRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
