@@ -1,0 +1,79 @@
+// umoney-frontend/src/api/utils/api.js
+// DEPRECATED: This file is maintained for backward compatibility.
+// Please use the new API modules from src/api/index.js instead.
+
+import {
+  API_BASE_URL,
+  handleResponse,
+  getAuthToken,
+  setAuthToken,
+  getHeaders
+} from './apiUtils';
+
+// Import functions from the new modular API structure
+import {
+  getTransactions,
+  getTransactionSummary,
+  getTransactionTags,
+  addTransactionTag,
+  updateTransaction,
+  deleteTransaction,
+  addIncome,
+  updateIncomeTransaction,
+  addExpense
+} from '../transactionApi';
+
+import {
+  addSavings,
+  updateSavingsTransaction
+} from '../savingsApi';
+
+import {
+  getCategories
+} from '../categoryApi';
+
+import {
+  getRecipients
+} from '../recipientApi';
+
+// Group API utility functions into a single object for backward compatibility
+export const apiUtils = {
+  API_BASE_URL,
+  handleResponse,
+  getAuthToken,
+  setAuthToken,
+  getHeaders,
+  
+  // Transaction API functions
+  getTransactions,
+  getTransactionSummary,
+  getTransactionTags,
+  addTransactionTag,
+  updateTransaction,
+  deleteTransaction,
+  addIncome,
+  updateIncomeTransaction,
+  addExpense,
+  
+  // Savings API functions
+  addSavings,
+  updateSavingsTransaction,
+  
+  // Category API functions
+  getCategories,
+  
+  // Recipient API functions
+  getRecipients
+};
+
+// Export individual functions for backward compatibility
+export {
+  API_BASE_URL,
+  handleResponse,
+  getAuthToken,
+  setAuthToken,
+  getHeaders
+};
+
+// Export default object for backward compatibility
+export default apiUtils;

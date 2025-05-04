@@ -1,0 +1,40 @@
+{
+  "name": "umoney-web",
+  "version": "1.0.0",
+  "description": "UMoney Web Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "cd umoney-backend && npm test",
+    "test:frontend": "cd umoney-frontend && npm run test:ci",
+    "install:all": "npm install && cd umoney-backend && npm install && cd ../umoney-frontend && npm install",
+    "start:backend": "cd umoney-backend && npm start",
+    "start:frontend": "cd umoney-frontend && npm start",
+    "prepare": "husky install"
+  },
+  "keywords": [
+    "finance",
+    "budget",
+    "money",
+    "transactions"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "umoney-backend/**/*.js": [
+      "cd umoney-backend && npx jest --findRelatedTests"
+    ],
+    "umoney-frontend/src/**/*.{js,jsx}": [
+      "cd umoney-frontend && npx react-scripts test --findRelatedTests --watchAll=false"
+    ]
+  }
+}

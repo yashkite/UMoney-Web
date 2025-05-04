@@ -1,0 +1,43 @@
+{
+  "name": "umoney-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:utils": "jest tests/transactionUtils.test.js",
+    "test:routes": "jest tests/transactionRoutes.test.js",
+    "test:watch:utils": "jest tests/transactionUtils.test.js --watch",
+    "test:watch:routes": "jest tests/transactionRoutes.test.js --watch",
+    "test:distribute": "jest -t \"distributeIncome\"",
+    "test:update": "jest -t \"updateIncomeTransaction\"",
+    "test:delete": "jest -t \"deleteIncomeTransaction\"",
+    "test:categories": "jest tests/categoryController.test.js",
+    "migrate-to-ledgers": "node scripts/migrateToLedgers.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.13.2",
+    "multer": "^1.4.5-lts.1",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^29.7.0",
+    "mongodb-memory-server": "^10.1.4",
+    "nodemon": "^3.1.9",
+    "supertest": "^7.1.0"
+  }
+}
