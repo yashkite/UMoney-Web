@@ -16,7 +16,7 @@
     "test:delete": "jest -t \"deleteIncomeTransaction\"",
     "test:categories": "jest tests/categoryController.test.js",
     "test:env": "jest tests/envVarCheck.test.js",
-    "test:security": "jest -t \"security\"",
+    "test:security": "jest tests/security.test.js",
     "migrate-to-ledgers": "node scripts/migrateToLedgers.js"
   },
   "keywords": [],
@@ -25,6 +25,7 @@
   "description": "",
   "dependencies": {
     "connect-mongo": "^5.1.0",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "csurf": "^1.11.0",
     "dotenv": "^16.5.0",
