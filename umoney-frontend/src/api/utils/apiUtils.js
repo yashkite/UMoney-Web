@@ -10,6 +10,21 @@ export const API_BASE_URL = 'http://localhost:5000/api';
 export const isDevelopment = process.env.NODE_ENV === 'development';
 
 /**
+ * Get CSRF token from cookies
+ * @returns {string|null} - CSRF token or null if not found
+ */
+export const getCsrfToken = () => {
+  const cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    if (cookie.startsWith('XSRF-TOKEN=')) {
+      return cookie.substring('XSRF-TOKEN='.length, cookie.length);
+    }
+  }
+  return null;
+};
+
+/**
  * Helper function to handle API responses
  * @param {Response} response - Fetch API response object
  * @returns {Promise<any>} - Parsed response data
@@ -109,6 +124,12 @@ export const getHeaders = (includeAuth = true) => {
     'Content-Type': 'application/json'
   };
 
+  // Add CSRF token if available
+  const csrfToken = getCsrfToken();
+  if (csrfToken) {
+    headers['X-CSRF-Token'] = csrfToken;
+  }
+
   if (includeAuth) {
     const token = getAuthToken();
     if (token) {
@@ -143,6 +164,12 @@ export const createFormData = (data, attachments = []) => {
   attachments.forEach(file => {
     formData.append('attachments', file);
   });
+
+  // Add CSRF token if available
+  const csrfToken = getCsrfToken();
+  if (csrfToken) {
+    formData.append('_csrf', csrfToken);
+  }
 
   return formData;
 };
@@ -221,11 +248,21 @@ export const apiPost = async (endpoint, data = {}, attachments = [], options = {
       // Use FormData for file uploads
       const formData = createFormData(data, attachments);
 
+      // Get auth token for header
+      const token = getAuthToken();
+      const headers = {
+        'Authorization': token ? `Bearer ${token}` : ''
+      };
+
+      // Add CSRF token if available
+      const csrfToken = getCsrfToken();
+      if (csrfToken) {
+        headers['X-CSRF-Token'] = csrfToken;
+      }
+
       response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${getAuthToken()}`
-        },
+        headers,
         body: formData,
         credentials: 'include'
       });
@@ -276,11 +313,21 @@ export const apiPut = async (endpoint, data = {}, attachments = [], options = {}
       // Use FormData for file uploads
       const formData = createFormData(data, attachments);
 
+      // Get auth token for header
+      const token = getAuthToken();
+      const headers = {
+        'Authorization': token ? `Bearer ${token}` : ''
+      };
+
+      // Add CSRF token if available
+      const csrfToken = getCsrfToken();
+      if (csrfToken) {
+        headers['X-CSRF-Token'] = csrfToken;
+      }
+
       response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${getAuthToken()}`
-        },
+        headers,
         body: formData,
         credentials: 'include'
       });
@@ -358,6 +405,7 @@ const apiUtilsExport = {
   setAuthToken,
   getHeaders,
   createFormData,
+  getCsrfToken,
   apiGet,
   apiPost,
   apiPut,
