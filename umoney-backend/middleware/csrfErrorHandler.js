@@ -1,21 +1,37 @@
 /**
- * CSRF Error Handler Middleware
+ * CSRF Error Handler
  * 
- * This middleware catches CSRF token validation errors and returns a standardized
- * error response to the client.
+ * This middleware catches CSRF token validation errors and returns
+ * a structured error response instead of the default error.
  */
-module.exports = (err, req, res, next) => {
+
+const csrfErrorHandler = (err, req, res, next) => {
+  // Check if the error is a CSRF token error
   if (err.code === 'EBADCSRFTOKEN') {
-    // Handle CSRF token errors
+    // Log the error for monitoring
+    console.error('CSRF attack detected:', {
+      url: req.originalUrl,
+      method: req.method,
+      ip: req.ip,
+      headers: {
+        'user-agent': req.get('user-agent'),
+        'referer': req.get('referer'),
+        'origin': req.get('origin')
+      }
+    });
+    
+    // Return a structured error response
     return res.status(403).json({
       success: false,
       error: {
-        message: 'Invalid CSRF token. This might be due to an expired form or a cross-site request forgery attempt.',
+        message: 'Invalid or missing CSRF token',
         code: 'INVALID_CSRF_TOKEN'
       }
     });
   }
   
-  // Pass all other errors to the next error handler
-  next(err);
+  // If it's not a CSRF error, pass it to the next error handler
+  return next(err);
 };
+
+module.exports = csrfErrorHandler;
