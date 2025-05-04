@@ -53,4 +53,12 @@ router.put('/budget-preferences', authMiddleware.ensureAuth, budgetController.up
 // @access  Private (requires login)
 router.put('/profile', authMiddleware.ensureAuth, authController.updateUserProfile);
 
+// @route   GET /api/auth/csrf-token
+// @desc    Get a CSRF token
+// @access  Public
+router.get('/csrf-token', (req, res) => {
+  // The CSRF token is automatically added to the response by the csrfMiddleware
+  res.json({ success: true, csrfToken: req.csrfToken() });
+});
+
 module.exports = router;
