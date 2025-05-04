@@ -34,13 +34,19 @@ npm install
 3. Create a `.env` file in the root of the backend directory with the following variables:
 
 ```
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret_key
-SESSION_SECRET=your_session_secret
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-NODE_ENV=development
+# Required environment variables
+MONGO_URI=your_mongodb_connection_string        # Required: MongoDB connection string
+JWT_SECRET=your_jwt_secret_key                  # Required: Secret key for JWT token generation and verification
+SESSION_SECRET=your_session_secret              # Required: Secret key for session management
+
+# Optional environment variables
+GOOGLE_CLIENT_ID=your_google_client_id          # Required for Google authentication
+GOOGLE_CLIENT_SECRET=your_google_client_secret  # Required for Google authentication
+NODE_ENV=development                            # Optional: Defaults to development if not set
+PORT=5000                                       # Optional: Defaults to 5000 if not set
 ```
+
+> **IMPORTANT**: The application will not start if the required environment variables (MONGO_URI, JWT_SECRET, SESSION_SECRET) are not set. These are critical for security and functionality.
 
 4. Start the backend server:
 
@@ -233,6 +239,29 @@ UMoney uses PrimeReact components throughout the application for a consistent an
 
 The application uses PrimeFlex CSS utility classes for responsive layouts and styling, making it mobile-friendly and easy to maintain.
 
+## Security Best Practices
+
+### Environment Variables
+
+- **Never commit your `.env` file to version control**
+- Use strong, unique values for JWT_SECRET and SESSION_SECRET
+- Rotate secrets periodically in production environments
+- Use different secrets for development, testing, and production environments
+
+### JWT Security
+
+- The application requires JWT_SECRET to be set as an environment variable
+- There are no hardcoded fallback values for security reasons
+- JWT tokens are set to expire after 24 hours
+- Use HTTPS in production to protect token transmission
+
+### Authentication
+
+- Google OAuth is implemented with proper security measures
+- JWT tokens are used for API authentication
+- Session management includes security best practices
+- Always keep your OAuth credentials secure
+
 ## Troubleshooting
 
 ### Port Conflicts
@@ -256,6 +285,7 @@ If you encounter authentication issues:
 1. Ensure your Google OAuth credentials are correctly set up
 2. Check that the redirect URIs match exactly
 3. Verify that your `.env` file contains the correct credentials
+4. Check that JWT_SECRET and SESSION_SECRET are properly set
 
 ## License
 

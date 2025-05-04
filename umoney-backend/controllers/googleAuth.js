@@ -20,10 +20,10 @@ exports.googleAuthCallback = (req, res, next) => {
       return res.redirect('/api/auth/login-failed'); // Redirect to failure route
     }
 
-    // Generate JWT token upon successful Google auth
+    // Generate JWT token upon successful Google auth using JWT_SECRET from environment variables
     const token = jwt.sign(
       { id: user.id },
-      process.env.JWT_SECRET || 'your-jwt-secret-key',
+      process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
 

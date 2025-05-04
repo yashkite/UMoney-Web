@@ -5,6 +5,17 @@ const cors = require('cors');
 const passport = require('passport');
 const session = require('express-session');
 
+// Check for required environment variables
+const requiredEnvVars = ['JWT_SECRET', 'SESSION_SECRET', 'MONGO_URI'];
+const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
+
+if (missingEnvVars.length > 0) {
+  console.error('Error: Missing required environment variables:');
+  missingEnvVars.forEach(envVar => console.error(`- ${envVar}`));
+  console.error('Please set these variables in your .env file');
+  process.exit(1);
+}
+
 // Load Passport config (executes the strategy setup)
 require('./config/passport-setup');
 
