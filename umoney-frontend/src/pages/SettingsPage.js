@@ -8,6 +8,7 @@ import { useCurrency } from '../contexts/CurrencyContext';
 import { useAuth } from '../contexts/AuthContext';
 import { BudgetController } from '../controllers/BudgetController';
 import { Card } from 'primereact/card';
+import ImportExportPanel from '../components/ImportExportPanel';
 
 const SettingsPage = () => {
   const { currencyCode, setCurrencyCode, supportedCurrencies } = useCurrency();
@@ -275,11 +276,11 @@ const SettingsPage = () => {
 
             <div className="col-12 md:col-6">
               <div className="field">
-                <label className="font-bold mb-2 block">Data Export</label>
+                <label className="font-bold mb-2 block">Account Security</label>
                 <div className="flex align-items-center">
                   <Button
-                    label="Export Your Data"
-                    icon="pi pi-download"
+                    label="Security Settings"
+                    icon="pi pi-shield"
                     className="p-button-outlined"
                     onClick={() => toast.current.show({ severity: 'info', summary: 'Coming Soon', detail: 'This feature will be available in a future update.' })}
                   />
@@ -289,6 +290,9 @@ const SettingsPage = () => {
           </div>
         </div>
       </Card>
+
+      {/* Import/Export Panel */}
+      <ImportExportPanel />
     </div>
   );
 }
