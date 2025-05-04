@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Sidebar } from 'primereact/sidebar';
@@ -11,9 +11,21 @@ const TransactionButton = ({
   useSidebar = false,
   buttonLabel,
   buttonIcon,
-  buttonClass
+  buttonClass,
+  id
 }) => {
   const [visible, setVisible] = useState(false);
+
+  // Make handleOpen accessible via ref
+  useEffect(() => {
+    if (id === 'hidden-income-button') {
+      // Expose the handleOpen method on the button element
+      const buttonElement = document.getElementById(id);
+      if (buttonElement) {
+        buttonElement.handleOpen = () => setVisible(true);
+      }
+    }
+  }, [id]);
 
   const handleOpen = () => {
     setVisible(true);
@@ -77,10 +89,11 @@ const TransactionButton = ({
   return (
     <>
       <Button
+        id={id}
         label={position ? '' : finalButtonLabel}
         icon={finalButtonIcon}
         onClick={handleOpen}
-        className={`${finalButtonClass} ${position ? 'p-button-rounded p-button-lg' : ''}`}
+        className={`${finalButtonClass} ${position ? 'p-button-rounded p-button-lg' : ''} ${transactionType === 'Income' ? 'income-form-trigger' : ''}`}
         style={position ? positionStyles : {}}
         aria-label={finalButtonLabel}
         tooltip={position ? finalButtonLabel : null}

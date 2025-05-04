@@ -346,13 +346,16 @@ const TransactionPage = ({ transactionType }) => {
         </div>
         <div className="flex align-items-center gap-2 mt-3 md:mt-0">
           {loading && <i className="pi pi-spin pi-spinner" style={{ fontSize: '1.5rem' }}></i>}
-          <TransactionButton
-            transactionType={transactionType}
-            onSuccess={handleTransactionSuccess}
-            buttonIcon={transactionType === 'Income' ? 'pi pi-plus' : 'pi pi-minus'}
-            buttonLabel={transactionType === 'Income' ? 'Add Income' : `Add ${transactionType} Expense`}
-            buttonClass={transactionType === 'Income' ? 'p-button-success' : 'p-button-danger'}
-          />
+          {/* Only show the button for non-Income transaction types or when on mobile */}
+          {(transactionType !== 'Income' || window.innerWidth < 768) && (
+            <TransactionButton
+              transactionType={transactionType}
+              onSuccess={handleTransactionSuccess}
+              buttonIcon={transactionType === 'Income' ? 'pi pi-plus' : 'pi pi-minus'}
+              buttonLabel={transactionType === 'Income' ? 'Add Income' : `Add ${transactionType} Expense`}
+              buttonClass={transactionType === 'Income' ? 'p-button-success' : 'p-button-danger'}
+            />
+          )}
         </div>
       </div>
 
@@ -502,13 +505,31 @@ const TransactionPage = ({ transactionType }) => {
       <Card className="dashboard-card shadow-3">
         <div className="flex justify-content-between align-items-center mb-3">
           <h3 className="m-0">{transactionType} Transactions</h3>
-          <TransactionButton
-            transactionType={transactionType}
-            onSuccess={handleTransactionSuccess}
-            buttonIcon={transactionType === 'Income' ? 'pi pi-plus' : 'pi pi-minus'}
-            buttonLabel={transactionType === 'Income' ? 'Add Income' : `Add ${transactionType} Expense`}
-            buttonClass={transactionType === 'Income' ? 'p-button-success p-button-sm' : 'p-button-danger p-button-sm'}
-          />
+          {transactionType !== 'Income' ? (
+            <TransactionButton
+              transactionType={transactionType}
+              onSuccess={handleTransactionSuccess}
+              buttonIcon="pi pi-minus"
+              buttonLabel={`Add ${transactionType} Expense`}
+              buttonClass="p-button-danger p-button-sm"
+            />
+          ) : (
+            <Button
+              icon="pi pi-plus"
+              label="Add Income"
+              className="p-button-success p-button-sm"
+              onClick={() => {
+                // Find the hidden income button and call its handleOpen method
+                const hiddenIncomeButton = document.getElementById('hidden-income-button');
+                if (hiddenIncomeButton && hiddenIncomeButton.handleOpen) {
+                  hiddenIncomeButton.handleOpen();
+                } else {
+                  // Fallback - click the button which will trigger its onClick handler
+                  hiddenIncomeButton?.click();
+                }
+              }}
+            />
+          )}
         </div>
 
         {loading ? (
@@ -533,6 +554,20 @@ const TransactionPage = ({ transactionType }) => {
           useSidebar={true}
         />
       </div>
+
+      {/* Hidden Income button for desktop view */}
+      {transactionType === 'Income' && (
+        <div style={{ display: 'none' }}>
+          <TransactionButton
+            id="hidden-income-button"
+            transactionType="Income"
+            onSuccess={handleTransactionSuccess}
+            buttonIcon="pi pi-plus"
+            buttonLabel="Add Income"
+            buttonClass="p-button-success"
+          />
+        </div>
+      )}
     </div>
   );
 };
