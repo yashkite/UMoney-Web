@@ -174,6 +174,7 @@ const budgetRoutes = require('./routes/budgets');
 const financialPlanningRoutes = require('./routes/financialPlanning');
 const utilsRoutes = require('./routes/utils');
 const ledgerRoutes = require('./routes/ledgers');
+const exportImportRoutes = require('./routes/exportImport');
 
 // Define specific rate limiters for different types of endpoints
 const apiLimiter = rateLimit({
@@ -205,6 +206,8 @@ app.use('/api/budgets', apiLimiter, budgetRoutes);
 app.use('/api/financial-planning', apiLimiter, financialPlanningRoutes);
 app.use('/api/utils', apiLimiter, utilsRoutes);
 app.use('/api/users', apiLimiter, ledgerRoutes);
+app.use('/api/export', apiLimiter, exportImportRoutes);
+app.use('/api/import', apiLimiter, exportImportRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {

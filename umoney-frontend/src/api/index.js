@@ -8,6 +8,7 @@ import * as savingsApi from './savingsApi';
 import * as categoryApi from './categoryApi';
 import * as recipientApi from './recipientApi';
 import * as userApi from './userApi';
+import * as exportImportApi from './exportImportApi';
 
 // Re-export everything
 export {
@@ -17,7 +18,8 @@ export {
   savingsApi,
   categoryApi,
   recipientApi,
-  userApi
+  userApi,
+  exportImportApi
 };
 
 // Export individual functions for convenience
@@ -65,6 +67,15 @@ export const {
   getBudgetPreferences
 } = userApi;
 
+// Export/Import API
+export const {
+  exportTransactionsCSV,
+  exportTransactionsJSON,
+  exportReportPDF,
+  importTransactionsCSV,
+  importTransactionsJSON
+} = exportImportApi;
+
 // Create a named object for default export
 const apiExports = {
   ...apiUtils,
@@ -73,7 +84,8 @@ const apiExports = {
   ...savingsApi,
   ...categoryApi,
   ...recipientApi,
-  ...userApi
+  ...userApi,
+  ...exportImportApi
 };
 
 // Export a default object with all API functions

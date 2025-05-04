@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1746364389201" clover="3.2.0">
-  <project timestamp="1746364389201" name="All files">
-    <metrics statements="562" coveredstatements="50" conditionals="245" coveredconditionals="9" methods="57" coveredmethods="8" elements="864" coveredelements="67" complexity="0" loc="562" ncloc="562" packages="3" files="25" classes="25"/>
+<coverage generated="1746372707638" clover="3.2.0">
+  <project timestamp="1746372707638" name="All files">
+    <metrics statements="586" coveredstatements="42" conditionals="254" coveredconditionals="15" methods="60" coveredmethods="7" elements="900" coveredelements="64" complexity="0" loc="586" ncloc="586" packages="3" files="26" classes="26"/>
     <package name="models">
-      <metrics statements="109" coveredstatements="27" conditionals="56" coveredconditionals="9" methods="20" coveredmethods="7"/>
+      <metrics statements="109" coveredstatements="42" conditionals="56" coveredconditionals="15" methods="20" coveredmethods="7"/>
       <file name="Asset.js" path="E:\code projects\Umoney Web\umoney-backend\models\Asset.js">
         <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -67,35 +67,35 @@
         <line num="48" count="0" type="stmt"/>
       </file>
       <file name="Transaction.js" path="E:\code projects\Umoney Web\umoney-backend\models\Transaction.js">
-        <metrics statements="33" coveredstatements="21" conditionals="23" coveredconditionals="9" methods="10" coveredmethods="7"/>
+        <metrics statements="33" coveredstatements="24" conditionals="23" coveredconditionals="10" methods="10" coveredmethods="6"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="26" count="1" type="stmt"/>
-        <line num="42" count="1" type="stmt"/>
+        <line num="42" count="4" type="stmt"/>
         <line num="44" count="0" type="stmt"/>
-        <line num="62" count="1" type="stmt"/>
+        <line num="62" count="4" type="stmt"/>
         <line num="66" count="0" type="cond" truecount="0" falsecount="4"/>
-        <line num="73" count="1" type="cond" truecount="3" falsecount="0"/>
+        <line num="73" count="4" type="cond" truecount="3" falsecount="0"/>
         <line num="77" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="124" count="1" type="cond" truecount="2" falsecount="2"/>
-        <line num="125" count="1" type="stmt"/>
+        <line num="124" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="125" count="0" type="stmt"/>
         <line num="127" count="0" type="stmt"/>
-        <line num="171" count="1" type="stmt"/>
-        <line num="174" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="171" count="4" type="stmt"/>
+        <line num="174" count="16" type="cond" truecount="2" falsecount="0"/>
         <line num="182" count="1" type="stmt"/>
-        <line num="183" count="1" type="stmt"/>
-        <line num="186" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="183" count="4" type="stmt"/>
+        <line num="186" count="4" type="cond" truecount="1" falsecount="1"/>
         <line num="187" count="0" type="stmt"/>
-        <line num="191" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="192" count="0" type="stmt"/>
-        <line num="193" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="194" count="0" type="stmt"/>
-        <line num="195" count="0" type="stmt"/>
-        <line num="196" count="0" type="stmt"/>
-        <line num="200" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="191" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="192" count="1" type="stmt"/>
+        <line num="193" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="194" count="1" type="stmt"/>
+        <line num="195" count="1" type="stmt"/>
+        <line num="196" count="1" type="stmt"/>
+        <line num="200" count="3" type="cond" truecount="1" falsecount="1"/>
         <line num="201" count="0" type="stmt"/>
         <line num="202" count="0" type="stmt"/>
-        <line num="205" count="1" type="stmt"/>
+        <line num="205" count="3" type="stmt"/>
         <line num="209" count="1" type="stmt"/>
         <line num="211" count="1" type="stmt"/>
         <line num="213" count="1" type="stmt"/>
@@ -128,24 +128,24 @@
         <line num="157" count="0" type="stmt"/>
       </file>
       <file name="User.js" path="E:\code projects\Umoney Web\umoney-backend\models\User.js">
-        <metrics statements="13" coveredstatements="0" conditionals="10" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="192" count="0" type="stmt"/>
-        <line num="193" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="194" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="195" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="196" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="198" count="0" type="stmt"/>
-        <line num="200" count="0" type="cond" truecount="0" falsecount="2"/>
+        <metrics statements="13" coveredstatements="12" conditionals="10" coveredconditionals="5" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="192" count="1" type="stmt"/>
+        <line num="193" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="194" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="195" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="196" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="198" count="1" type="stmt"/>
+        <line num="200" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="201" count="0" type="stmt"/>
-        <line num="204" count="0" type="stmt"/>
-        <line num="207" count="0" type="stmt"/>
+        <line num="204" count="1" type="stmt"/>
+        <line num="207" count="1" type="stmt"/>
       </file>
     </package>
     <package name="routes">
-      <metrics statements="183" coveredstatements="14" conditionals="22" coveredconditionals="0" methods="11" coveredmethods="0"/>
+      <metrics statements="207" coveredstatements="0" conditionals="31" coveredconditionals="0" methods="14" coveredmethods="0"/>
       <file name="assets.js" path="E:\code projects\Umoney Web\umoney-backend\routes\assets.js">
         <metrics statements="10" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -160,7 +160,7 @@
         <line num="29" count="0" type="stmt"/>
       </file>
       <file name="auth.js" path="E:\code projects\Umoney Web\umoney-backend\routes\auth.js">
-        <metrics statements="17" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="19" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
@@ -177,7 +177,9 @@
         <line num="44" count="0" type="stmt"/>
         <line num="49" count="0" type="stmt"/>
         <line num="54" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="64" count="0" type="stmt"/>
       </file>
       <file name="budgets.js" path="E:\code projects\Umoney Web\umoney-backend\routes\budgets.js">
         <metrics statements="12" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -195,21 +197,46 @@
         <line num="41" count="0" type="stmt"/>
       </file>
       <file name="categories.js" path="E:\code projects\Umoney Web\umoney-backend\routes\categories.js">
-        <metrics statements="14" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="14" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="29" count="1" type="stmt"/>
-        <line num="34" count="1" type="stmt"/>
-        <line num="39" count="1" type="stmt"/>
-        <line num="44" count="1" type="stmt"/>
-        <line num="49" count="1" type="stmt"/>
-        <line num="51" count="1" type="stmt"/>
+        <metrics statements="14" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="51" count="0" type="stmt"/>
+      </file>
+      <file name="exportImport.js" path="E:\code projects\Umoney Web\umoney-backend\routes\exportImport.js">
+        <metrics statements="22" coveredstatements="0" conditionals="9" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="16" count="0" type="cond" truecount="0" falsecount="5"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="55" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="63" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="72" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="74" count="0" type="stmt"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="87" count="0" type="stmt"/>
       </file>
       <file name="financialGoals.js" path="E:\code projects\Umoney Web\umoney-backend\routes\financialGoals.js">
         <metrics statements="11" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -364,20 +391,20 @@
       </file>
     </package>
     <package name="utils">
-      <metrics statements="270" coveredstatements="9" conditionals="167" coveredconditionals="0" methods="26" coveredmethods="1"/>
+      <metrics statements="270" coveredstatements="0" conditionals="167" coveredconditionals="0" methods="26" coveredmethods="0"/>
       <file name="categoryUtils.js" path="E:\code projects\Umoney Web\umoney-backend\utils\categoryUtils.js">
-        <metrics statements="11" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="8" count="10" type="stmt"/>
-        <line num="10" count="10" type="stmt"/>
-        <line num="46" count="10" type="stmt"/>
-        <line num="47" count="40" type="stmt"/>
-        <line num="48" count="240" type="stmt"/>
-        <line num="71" count="10" type="stmt"/>
+        <metrics statements="11" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="71" count="0" type="stmt"/>
         <line num="73" count="0" type="stmt"/>
         <line num="74" count="0" type="stmt"/>
-        <line num="78" count="1" type="stmt"/>
+        <line num="78" count="0" type="stmt"/>
       </file>
       <file name="currencyUtils.js" path="E:\code projects\Umoney Web\umoney-backend\utils\currencyUtils.js">
         <metrics statements="14" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="6" coveredmethods="0"/>

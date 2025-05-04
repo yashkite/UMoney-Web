@@ -27,10 +27,14 @@ export const getCsrfToken = () => {
 /**
  * Helper function to handle API responses
  * @param {Response} response - Fetch API response object
+ * @param {Object} options - Additional options
+ * @param {string} options.responseType - Expected response type ('json', 'text', 'blob')
  * @returns {Promise<any>} - Parsed response data
  * @throws {Error} - Error with response details
  */
-export const handleResponse = async (response) => {
+export const handleResponse = async (response, options = {}) => {
+  const { responseType = 'auto' } = options;
+
   if (!response.ok) {
     // Try to get error message from response
     try {
@@ -71,19 +75,79 @@ export const handleResponse = async (response) => {
     }
   }
 
+  // If responseType is explicitly set to 'blob', return the blob
+  if (responseType === 'blob') {
+    const blob = await response.blob();
+
+    // Only log in development environment
+    if (isDevelopment) {
+      console.log('API Blob Response:', blob);
+    }
+
+    return blob;
+  }
+
   // Check if response has content
   const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
+
+  // Auto-detect response type if not explicitly set
+  if (responseType === 'auto') {
+    if (contentType && contentType.includes('application/json')) {
+      const data = await response.json();
+
+      // Only log in development environment
+      if (isDevelopment) {
+        console.log('API Response:', data);
+      }
+
+      return data;
+    } else if (contentType && (
+      contentType.includes('text/csv') ||
+      contentType.includes('application/json') ||
+      contentType.includes('application/pdf')
+    )) {
+      const blob = await response.blob();
+
+      // Only log in development environment
+      if (isDevelopment) {
+        console.log('API Blob Response:', blob);
+      }
+
+      return blob;
+    } else {
+      const text = await response.text();
+
+      // Only log in development environment
+      if (isDevelopment) {
+        console.log('API Text Response:', text);
+      }
+
+      return text;
+    }
+  }
+
+  // Handle explicit responseType
+  if (responseType === 'json') {
     const data = await response.json();
 
     // Only log in development environment
     if (isDevelopment) {
-      console.log('API Response:', data);
+      console.log('API JSON Response:', data);
     }
 
     return data;
+  } else if (responseType === 'text') {
+    const text = await response.text();
+
+    // Only log in development environment
+    if (isDevelopment) {
+      console.log('API Text Response:', text);
+    }
+
+    return text;
   }
 
+  // Default fallback
   const text = await response.text();
 
   // Only log in development environment
@@ -181,11 +245,12 @@ export const createFormData = (data, attachments = []) => {
  * @param {Object} options - Additional options
  * @param {boolean} options.useCache - Whether to use cache (default: false)
  * @param {number} options.cacheExpiration - Cache expiration time in milliseconds
+ * @param {string} options.responseType - Expected response type ('json', 'text', 'blob', 'auto')
  * @returns {Promise<any>} - Response data
  */
 export const apiGet = async (endpoint, params = {}, options = {}) => {
   try {
-    const { useCache = false, cacheExpiration } = options;
+    const { useCache = false, cacheExpiration, responseType = 'auto' } = options;
 
     const queryString = Object.keys(params)
       .filter(key => params[key] !== undefined && params[key] !== null)
@@ -197,8 +262,8 @@ export const apiGet = async (endpoint, params = {}, options = {}) => {
     // Generate a cache key based on the URL
     const cacheKey = `api:${url}`;
 
-    // Check cache if enabled
-    if (useCache) {
+    // Check cache if enabled and not requesting a blob
+    if (useCache && responseType !== 'blob') {
       const cachedData = getCachedValue(cacheKey);
       if (cachedData) {
         if (isDevelopment) {
@@ -214,10 +279,10 @@ export const apiGet = async (endpoint, params = {}, options = {}) => {
       credentials: 'include'
     });
 
-    const data = await handleResponse(response);
+    const data = await handleResponse(response, { responseType });
 
-    // Cache the response if caching is enabled
-    if (useCache && data) {
+    // Cache the response if caching is enabled and not a blob
+    if (useCache && data && responseType !== 'blob') {
       setCachedValue(cacheKey, data, cacheExpiration);
     }
 
@@ -237,16 +302,31 @@ export const apiGet = async (endpoint, params = {}, options = {}) => {
  * @param {Array} attachments - Array of file attachments
  * @param {Object} options - Additional options
  * @param {string} options.cachePrefixToClear - Cache prefix to clear after successful request
+ * @param {string} options.contentType - Content type ('json', 'multipart/form-data')
+ * @param {string} options.responseType - Expected response type ('json', 'text', 'blob', 'auto')
  * @returns {Promise<any>} - Response data
  */
 export const apiPost = async (endpoint, data = {}, attachments = [], options = {}) => {
   try {
-    const { cachePrefixToClear } = options;
+    const {
+      cachePrefixToClear,
+      contentType = 'json',
+      responseType = 'auto'
+    } = options;
+
     let response;
 
-    if (attachments && attachments.length > 0) {
-      // Use FormData for file uploads
-      const formData = createFormData(data, attachments);
+    if (contentType === 'multipart/form-data' || (attachments && attachments.length > 0)) {
+      // Use FormData for file uploads or multipart/form-data
+      let formData;
+
+      if (data instanceof FormData) {
+        // If data is already FormData, use it directly
+        formData = data;
+      } else {
+        // Otherwise, create FormData from data and attachments
+        formData = createFormData(data, attachments);
+      }
 
       // Get auth token for header
       const token = getAuthToken();
@@ -276,7 +356,7 @@ export const apiPost = async (endpoint, data = {}, attachments = [], options = {
       });
     }
 
-    const responseData = await handleResponse(response);
+    const responseData = await handleResponse(response, { responseType });
 
     // Clear related cache items if specified
     if (cachePrefixToClear) {
