@@ -7,6 +7,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const csrf = require('csurf');
 const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
 
 // Import custom middleware
 const csrfErrorHandler = require('./middleware/csrfErrorHandler');
@@ -56,6 +57,7 @@ app.use(cors({
   exposedHeaders: ['XSRF-TOKEN'] // Expose CSRF token header
 }));
 app.use(express.json()); // for parsing application/json
+app.use(cookieParser()); // for parsing cookies
 
 // Session Middleware with enhanced security
 app.use(session({
